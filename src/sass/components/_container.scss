@@ -6,10 +6,14 @@
     margin-right: auto;
     @include for-size(mobile) {
       width: 320px;
+      display: flex;
+      align-items: center;
       /*  display: block; */
     }
   
     @include for-size(tablet) {
+      display: flex;
+      align-items: center;
       width:768px;
     }
   
