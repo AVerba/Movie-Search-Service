@@ -1,0 +1,77 @@
+.header{
+    margin: 0 auto;
+    background-color: #ff6347;
+    background-image: url("../images/mobile/header-home-background.jpg");
+    @include background-pos();
+    padding: 200px 0;
+    @include for-size(to-tablet) {
+        padding: 118px 0;
+      }
+      @include for-size(tablet) {
+        padding: 107px 0;
+      }
+      @include for-size(desktop) {
+        padding: 108px 0;
+      }
+      text-align: center;
+    
+      @media screen and (min-device-pixel-ratio: 2), 
+             screen and (min-resolution: 192dpi), 
+             screen and (min-resolution: 2dppx) {
+        background-image: url(../images/mobile/header-home-background@2x.jpg);
+      }
+    
+      @include for-size(tablet) {
+         background-image: url(../images/tablet/header-home-background.jpg);    
+        @media screen and (min-device-pixel-ratio: 2), 
+               screen and (min-resolution: 192dpi), 
+               screen and (min-resolution: 2dppx) {
+            background-image: url(../images/tablet/header-home-background@2x.jpg);        
+        }
+      }
+    
+      @include for-size(desktop) {
+        background-image: url(../images/desktop/header-home-background.jpg);    
+        @media screen and (min-device-pixel-ratio: 2), 
+               screen and (min-resolution: 192dpi), 
+               screen and (min-resolution: 2dppx) {
+            background-image: url(../images/desktop/header-home-background@2x.jpg);        
+        }
+      }
+
+}
+.menu{
+    margin-left: auto;
+}
+.menu__list{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    li{
+        cursor: pointer;
+    }
+    li+li{
+        margin-left: 39px;
+    }
+}
+.header__logo{
+    display: flex;
+    align-items: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 35px;
+    color: #ffff;
+}
+.logo-icon{
+    margin-right:10px ;
+}
+.menu__link{
+    text-transform: uppercase;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.00 ;
+    color: #fff;
+}

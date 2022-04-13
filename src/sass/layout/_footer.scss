@@ -1,0 +1,19 @@
+.footer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    background-color: tomato;
+    justify-content: center;
+    .container {
+        display: flex;
+        @include for-size(tablet) {
+          justify-content: center;
+          align-items: center;       
+         /*  */
+        }
+        
+      }
+}
+.contact-list{
+    display: flex;
+}
