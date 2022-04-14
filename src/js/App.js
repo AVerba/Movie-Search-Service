@@ -10,8 +10,12 @@ const formInput=form.querySelector("#searchInput");
 
 const movies=new MovieApiService();
 
+const searchTrendingMovie = async ()=>{
+    const getMoviesData = await movies.fetchTrendingMovie();
+    console.log(getMoviesData.results)
 
-const formSearchHendler = async (e)=>{
+}
+const formSearcMoviehHendler = async (e)=>{
     e.preventDefault();
     
     movies.searchQuery=formInput.value.trim();
@@ -22,5 +26,6 @@ const formSearchHendler = async (e)=>{
     console.log(getMoviesData.results)
 
 }
-formBtn.addEventListener('click', formSearchHendler);
+formBtn.addEventListener('click', formSearcMoviehHendler);
+searchTrendingMovie();
 
