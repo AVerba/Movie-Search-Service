@@ -40,6 +40,39 @@
       }
 
 }
+.logo-icon{
+    @include for-size(desktop) {
+        margin-right:10px;
+      }    
+}
+.search-film{
+    @include for-size(desktop){
+        margin-left: 137px;
+        width: 336px;
+        border-bottom: 0.5px solid #FFFFFF;;
+    }
+    input{
+        background-color: transparent;
+        border: none;
+        width: 100%;
+        font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 1.143;
+            color: #fff;
+        padding: 12px 0;
+        ::placeholder{
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 1.143;
+            color: #fff;
+            
+        }
+    }
+}
+
+
 .menu{
     margin-left: auto;
 }
@@ -54,6 +87,14 @@
         margin-left: 39px;
     }
 }
+.menu__link{
+    text-transform: uppercase;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.00 ;
+    color: #fff;
+}
 .header__logo{
     display: flex;
     align-items: center;
@@ -64,14 +105,4 @@
     line-height: 35px;
     color: #ffff;
 }
-.logo-icon{
-    margin-right:10px ;
-}
-.menu__link{
-    text-transform: uppercase;
-    font-family: Roboto;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.00 ;
-    color: #fff;
-}
+
