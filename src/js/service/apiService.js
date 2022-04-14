@@ -1,5 +1,5 @@
 const axios = require('axios'); 
-import apiSettings from './settings';
+import apiSettings from './apiSettings';
 const { API_KEY, BASE_URL }=apiSettings;
 
 export default class MovieApiService{
