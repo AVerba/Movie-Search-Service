@@ -12,7 +12,8 @@ const movies=new MovieApiService();
 
 const searchTrendingMovie = async ()=>{
     const getMoviesData = await movies.fetchTrendingMovie();
-    console.log(getMoviesData.results)
+    const {results}=getMoviesData;
+   /*  console.log(results) */
 
 }
 const formSearcMoviehHendler = async (e)=>{
@@ -20,12 +21,12 @@ const formSearcMoviehHendler = async (e)=>{
     
     movies.searchQuery=formInput.value.trim();
     
-    console.log(`TEST ${ movies.searchQuery}`);
-    formInput.value=" ";
+    
     const getMoviesData = await movies.fetchSearchMovie();
-    console.log(getMoviesData.results)
+    const {results}=getMoviesData;
+    console.log(results)
 
 }
-formBtn.addEventListener('click', formSearcMoviehHendler);
+formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500));
 searchTrendingMovie();
 
