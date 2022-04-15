@@ -29,6 +29,13 @@ export default class MovieApiService{
 
         return data;
     }
+    async fetchGenresMovie() {
+        const response = await axios.get(`${BASE_URL}genre/movie/list?api_key=${API_KEY}`);
+        const data = await response.data;
+
+        return data;
+    }
+
 
     get searchQuery() {
         return this.query;

@@ -7,15 +7,38 @@ import debounce from 'lodash.debounce';
 const form =document.getElementById('searchFilm');
 const formBtn=form.querySelector("#searchBtn");
 const formInput=form.querySelector("#searchInput");
+const allGenresMovie=[];
 
 const movies=new MovieApiService();
 
-const searchTrendingMovie = async ()=>{
+const getTrendingMovie = async ()=>{
     const getMoviesData = await movies.fetchTrendingMovie();
     const {results}=getMoviesData;
    /*  console.log(results) */
+}
+const getAllGenresMovie = async ()=>{
+    return await movies.fetchGenresMovie();
+}
+
+const getCommonGenres =(aLLGenresID,userGenreID)=>{
+    const genres=[];
+/*     console.log(aLLGenresID)
+    console.log(`User${userGenreID}`) */
+         userGenreID.forEach(genreID=>{
+        let genre = aLLGenresID.find(item => item.id === genreID);
+        if(genre){
+            genres.push(genre.name)
+        }
+
+        
+    })
+    return genres;
+ 
 
 }
+getTrendingMovie();
+getAllGenresMovie();
+
 const formSearcMoviehHendler = async (e)=>{
     e.preventDefault();
     
@@ -24,9 +47,22 @@ const formSearcMoviehHendler = async (e)=>{
     
     const getMoviesData = await movies.fetchSearchMovie();
     const {results}=getMoviesData;
-    console.log(results)
+    const {genres} = await getAllGenresMovie();
+
+    results.map(item=>{
+        const {genre_ids, title, id}=item;
+        const movieGenre=getCommonGenres(genres,genre_ids);
+
+        console.log(`ФІЛЬИ з ID:${id}; НАЗВА: ${title};  ЖАНР: ${movieGenre.join(',')}`)
+
+    })
+
+    /* console.log(results) */
 
 }
-formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500));
-searchTrendingMovie();
+
+;
+/* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */
+formBtn.addEventListener('click', formSearcMoviehHendler );
+
 
