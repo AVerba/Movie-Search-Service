@@ -1,0 +1,18 @@
+{{#each this}}
+<li class="film-card">
+	<div class="img-wrapper">
+		<img src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{title}}" data-id={{id}} class="film-img">
+		<div class="gradient"></div>
+	</div>
+	<div class="film-box">
+		<h3 class="film-title">{{original_title}}</h3>
+		<ul class="genres__list js-genres__list">
+			<li class="genres__item">
+				<span class="film-text genre">{{genre_names}} |</span>
+				<span class="film-text">{{date}}</span>
+				<span class="film-rate">{{vote_average}}</span>
+			</li>
+		</ul>
+	</div>
+</li>
+{{/each}}
