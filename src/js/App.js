@@ -56,9 +56,6 @@ const formSearcMoviehHendler = async (e)=>{
         console.log(`ФІЛЬИ з ID:${id}; НАЗВА: ${title};  ЖАНР: ${movieGenre.join(',')}`)
 
     })
-
-    /* console.log(results) */
-
 }
 
 ;
