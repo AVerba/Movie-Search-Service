@@ -10,14 +10,15 @@ const form =document.getElementById('searchFilm');
 const formBtn=form.querySelector("#searchBtn");
 const formInput=form.querySelector("#searchInput");
 const pageContainer=document.querySelector('.pageContainer');
-const allGenresMovie=[];
+
+
+/* const allGenresMovie=[]; */
 
 const movies=new MovieApiService();
 
 const getTrendingMovie = async ()=>{
     const getMoviesData = await movies.fetchTrendingMovie();
     const {results}=getMoviesData;
-   /*  console.log(results) */
 }
 const getAllGenresMovie = async ()=>{
     return await movies.fetchGenresMovie();
@@ -31,13 +32,17 @@ const getCommonGenres =(aLLGenresID,userGenreID)=>{
         let genre = aLLGenresID.find(item => item.id === genreID);
         if(genre){
             genres.push(genre.name)
-        }
-
-        
+        }        
     })
     return genres;
- 
+}
+const getMovieID=async (e)=>{
+    /* const selectedMovieItem =pageContainer.querySelector('.film-card'); */
+console.log(Number(e.target.getAttribute('data-id')))
+const movieID=Number(e.target.getAttribute('data-id'));
+const selectedMovieInfo= await movies.fetchDetailInfoMovie(movieID);
 
+console.log(selectedMovieInfo);
 }
 getTrendingMovie();
 getAllGenresMovie();
@@ -62,15 +67,13 @@ const formSearcMoviehHendler = async (e)=>{
         results.map(item=>{
             const tempGanres=[];
             const {genre_ids, title, id}=item;
-            const movieGenre=getCommonGenres(genres,genre_ids);
-             
+            const movieGenre=getCommonGenres(genres,genre_ids);             
             item['ganres_names']=movieGenre.join(', ');
                
         })
         
         results['tempGanres']=tempGanres;
         console.log(results)
-        console.log(tempGanres)
 
         Notify.success(`Hooray! We found ${total_results} movies.`);
         
@@ -96,5 +99,6 @@ function clearGalleryContainer(ref) {
 ;
 /* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */
 formBtn.addEventListener('click', formSearcMoviehHendler );
+pageContainer.addEventListener('click',getMovieID )
 
 
