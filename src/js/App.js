@@ -1,12 +1,15 @@
 
 import MovieApiService from "./service/apiService";
+import galleryMurkup from "../template/galleryMurkup.hbs";
 
 import debounce from 'lodash.debounce';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 
 const form =document.getElementById('searchFilm');
 const formBtn=form.querySelector("#searchBtn");
 const formInput=form.querySelector("#searchInput");
+const pageContainer=document.querySelector('.pageContainer');
 const allGenresMovie=[];
 
 const movies=new MovieApiService();
@@ -46,18 +49,50 @@ const formSearcMoviehHendler = async (e)=>{
     
     
     const getMoviesData = await movies.fetchSearchMovie();
-    const {results}=getMoviesData;
+    const {results, total_results}=getMoviesData;
     const {genres} = await getAllGenresMovie();
+    console.log(results)
 
-    results.map(item=>{
-        const {genre_ids, title, id}=item;
-        const movieGenre=getCommonGenres(genres,genre_ids);
+    if (results.length === 0) {
 
-        console.log(`ФІЛЬИ з ID:${id}; НАЗВА: ${title};  ЖАНР: ${movieGenre.join(',')}`)
+        Notify.failure('Sorry, there are no images matching your search query. Please try again.');
 
-    })
+    } else {
+        const tempGanres=[];
+        results.map(item=>{
+            const tempGanres=[];
+            const {genre_ids, title, id}=item;
+            const movieGenre=getCommonGenres(genres,genre_ids);
+             
+            item['ganres_names']=movieGenre.join(', ');
+               
+        })
+        
+        results['tempGanres']=tempGanres;
+        console.log(results)
+        console.log(tempGanres)
+
+        Notify.success(`Hooray! We found ${total_results} movies.`);
+        
+        clearGalleryContainer(pageContainer);
+        movies.resetPage();
+
+        const markup = galleryMurkup(results);
+        galleryMarkUp(markup, pageContainer);
+
+    }
+
+
 }
 
+function galleryMarkUp(items,ref) {
+
+    ref.insertAdjacentHTML('beforeend', items);
+
+}
+function clearGalleryContainer(ref) {
+    ref.innerHTML = '';
+  }
 ;
 /* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */
 formBtn.addEventListener('click', formSearcMoviehHendler );
