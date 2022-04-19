@@ -32,3 +32,23 @@ $to-tablet: 767px;
 $tablet: 768px;
 $to-desktop: 1023px;
 $desktop: 1024px;
+
+//________________________________________________________-
+// Colors
+$light-text-color: #ffffff;
+$dark-text-color: #000000;
+$modal-text-color: #8c8c8c;
+$footer-text-color: #545454;
+
+$accent-color: #ff6b08;
+$secondary-bg-color: #f7f7f7;
+
+//fonts
+$normal: 400;
+$medium: 500;
+$bold: 700;
+$black: 900;
+$primary-font: Roboto, sans-serif;
+
+//animation
+$cubic: 250ms cubic-bezier(0.4, 0, 0.2, 1);

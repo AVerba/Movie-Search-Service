@@ -1,0 +1,113 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    overflow-y: scroll;
+  
+    opacity: 1;
+  
+    &.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: opacity $cubic;
+  }
+  
+  .modal__card {
+    position: absolute;
+    display: inline-block;
+    width: 280px;
+    height: auto;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    padding: 48px 20px 41px 20px;
+  
+    overflow: auto;
+  
+    @include for-size(tablet) {
+      display: flex;
+      width: 618px;
+      height: auto;
+      padding-top: 50px;
+      padding-bottom: 40px;
+      padding-right: 30px;
+      padding-left: 30px;
+      top: 50px;
+      left: 50%;
+      transform: translate(-50%) scale(1);
+  
+      .overlay.is-hidden & {
+        transform: translate(-50%) scale(0);
+      }
+    }
+  
+    @include for-size(desktop) {
+      top: 50%;
+      left: 50%;
+      width: 882px;
+      height: auto;
+  
+      transform: translate(-50%, -50%) scale(1);
+  
+      .overlay.is-hidden & {
+        transform: translate(-50%, -50%) scale(0);
+      }
+    }
+  
+    background-color: $light-text-color;
+    transition: transform $cubic;
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  
+    background-color: $light-text-color;
+  
+    border-radius: 50%;
+  
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: black;
+    }
+  
+    &::before {
+      top: 45%;
+      transform: rotate(45deg);
+      transition: transform $cubic;
+    }
+  
+    &::after {
+      bottom: 45%;
+      transform: rotate(-45deg);
+      transition: transform $cubic;
+    }
+  
+    &:hover::before,
+    &:focus::before {
+      transform: rotate(-45deg);
+      background-color: $accent-color;
+    }
+  
+    &:hover::after,
+    &:focus::after {
+      transform: rotate(45deg);
+      background-color: $accent-color;
+    }
+  }
+  

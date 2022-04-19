@@ -1,6 +1,7 @@
 
 import MovieApiService from "./service/apiService";
 import galleryMurkup from "../template/galleryMurkup.hbs";
+import selectedMovieCard from "../template/selectedMovieCard";
 
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -10,6 +11,7 @@ const form =document.getElementById('searchFilm');
 const formBtn=form.querySelector("#searchBtn");
 const formInput=form.querySelector("#searchInput");
 const pageContainer=document.querySelector('.pageContainer');
+const ModalCardTomb=document.querySelector('.modal__card');
 
 
 /* const allGenresMovie=[]; */
@@ -19,15 +21,18 @@ const movies=new MovieApiService();
 const getTrendingMovie = async ()=>{
     const getMoviesData = await movies.fetchTrendingMovie();
     const {results}=getMoviesData;
+    clearGalleryContainer(pageContainer);
+    movies.resetPage();
+    const markup = galleryMurkup(results);
+    galleryMarkUp(markup, pageContainer);
 }
+
 const getAllGenresMovie = async ()=>{
     return await movies.fetchGenresMovie();
 }
 
 const getCommonGenres =(aLLGenresID,userGenreID)=>{
     const genres=[];
-/*     console.log(aLLGenresID)
-    console.log(`User${userGenreID}`) */
          userGenreID.forEach(genreID=>{
         let genre = aLLGenresID.find(item => item.id === genreID);
         if(genre){
@@ -36,14 +41,18 @@ const getCommonGenres =(aLLGenresID,userGenreID)=>{
     })
     return genres;
 }
+
 const getMovieID=async (e)=>{
-    /* const selectedMovieItem =pageContainer.querySelector('.film-card'); */
 console.log(Number(e.target.getAttribute('data-id')))
 const movieID=Number(e.target.getAttribute('data-id'));
 const selectedMovieInfo= await movies.fetchDetailInfoMovie(movieID);
 
-console.log(selectedMovieInfo);
+const modalMarkup = await selectedMovieCard(selectedMovieInfo);
+/* pageContainer.insertAdjacentHTML('beforeend',modalMarkup); */
+ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
+console.log(modalMarkup);
 }
+
 getTrendingMovie();
 getAllGenresMovie();
 
