@@ -2,6 +2,7 @@
 import MovieApiService from "./service/apiService";
 import galleryMurkup from "../template/galleryMurkup.hbs";
 import selectedMovieCard from "../template/selectedMovieCard";
+import {Movies} from "./fireBase/movies";
 
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -50,6 +51,7 @@ const selectedMovieInfo= await movies.fetchDetailInfoMovie(movieID);
 const modalMarkup = await selectedMovieCard(selectedMovieInfo);
 /* pageContainer.insertAdjacentHTML('beforeend',modalMarkup); */
 ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
+Movies.create(movieID);
 console.log(modalMarkup);
 }
 
