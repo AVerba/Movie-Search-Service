@@ -13,6 +13,10 @@ const formBtn=form.querySelector("#searchBtn");
 const formInput=form.querySelector("#searchInput");
 const pageContainer=document.querySelector('.pageContainer');
 const ModalCardTomb=document.querySelector('.modal__card');
+const accountBtn=document.querySelector('.account-btn');
+const openAccountModalBtn = document.querySelector("[data-modal-open]");
+const modal = document.querySelector("[data-modal]");
+const closeAccountModalBtn = document.querySelector("[data-modal-close]");
 
 
 /* const allGenresMovie=[]; */
@@ -106,8 +110,17 @@ function galleryMarkUp(items,ref) {
 }
 function clearGalleryContainer(ref) {
     ref.innerHTML = '';
-  }
-;
+}
+openAccountModalBtn.addEventListener('click', ()=>{
+    modal.classList.remove("is-hidden")
+  }, false);
+  
+  closeAccountModalBtn.addEventListener('click',()=>{
+    modal.classList.add("is-hidden")
+    
+  }, false);
+
+
 /* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */
 formBtn.addEventListener('click', formSearcMoviehHendler );
 pageContainer.addEventListener('click',getMovieID )
