@@ -26,7 +26,28 @@ const movies=new MovieApiService();
 
 const getTrendingMovie = async ()=>{
     const getMoviesData = await movies.fetchTrendingMovie();
+    const {genres} = await getAllGenresMovie();
     const {results}=getMoviesData;
+
+    const tempGanres=[];
+    results.map(item=>{
+         
+        const {genre_ids}=item;
+        const movieGenre=getCommonGenres(genres,genre_ids);             
+        item['ganres_names']=movieGenre;
+        
+           
+    })
+    
+    results['tempGanres']=tempGanres;
+    results.forEach(item=>{
+        item.release_date=new Date(Date.parse(item.release_date)).getFullYear()
+
+    })
+
+ 
+
+
     clearGalleryContainer(pageContainer);
     movies.resetPage();
     const markup = galleryMurkup(results);
@@ -39,10 +60,16 @@ const getAllGenresMovie = async ()=>{
 
 const getCommonGenres =(aLLGenresID,userGenreID)=>{
     const genres=[];
+    const tempGenres=[];
+
          userGenreID.forEach(genreID=>{
         let genre = aLLGenresID.find(item => item.id === genreID);
         if(genre){
             genres.push(genre.name)
+        }
+        if(genres.length>=2){
+           genres.splice(2)  ;
+           
         }        
     })
     return genres;
@@ -88,6 +115,11 @@ const formSearcMoviehHendler = async (e)=>{
     const {results, total_results}=getMoviesData;
     const {genres} = await getAllGenresMovie();
     console.log(results)
+    results.forEach(item=>{
+        item.release_date=new Date(Date.parse(item.release_date)).getFullYear()
+
+    })
+   /*  results.release_date.split(' ').splice(1).join('') */
 
     if (results.length === 0) {
 
