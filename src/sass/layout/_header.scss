@@ -54,6 +54,15 @@
     cursor: pointer;
 
 }
+.btn-icon{
+    &:hover {
+        fill: $accent-color;
+        
+        border: none;
+        cursor: pointer;
+      }
+
+}
 .search-film{
     @include for-size(desktop){
         margin-left: 137px;

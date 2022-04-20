@@ -1,113 +1,290 @@
 .overlay {
-    position: fixed;
-    top: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  overflow-y: scroll;
+
+  opacity: 1;
+
+  &.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);;
+}
+
+.modal__card {
+  position: absolute;
+  display: inline-block;
+  width: 280px;
+  height: auto;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%);
+  padding: 48px 20px 41px 20px;
+
+  overflow: auto;
+
+  @include for-size(tablet) {
+    display: flex;
+    width: 618px;
+    height: auto;
+    padding-top: 50px;
+    padding-bottom: 40px;
+    padding-right: 30px;
+    padding-left: 30px;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%) scale(1);
+
+    .overlay.is-hidden & {
+      transform: translate(-50%) scale(0);
+    }
+  }
+
+  @include for-size(desktop) {
+    top: 50%;
+    left: 50%;
+    width: 882px;
+    height: auto;
+
+    transform: translate(-50%, -50%) scale(1);
+
+    .overlay.is-hidden & {
+      transform: translate(-50%, -50%) scale(0);
+    }
+  }
+
+  background-color: $light-text-color;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+
+  background-color: $light-text-color;
+
+  border-radius: 50%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
     left: 0;
     width: 100%;
-    height: 100%;
-    pointer-events: auto;
-    overflow-y: scroll;
-  
-    opacity: 1;
-  
-    &.is-hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-  
-    background-color: rgba(0, 0, 0, 0.2);
-    transition: opacity $cubic;
+    height: 2px;
+    background-color: black;
   }
-  
-  .modal__card {
-    position: absolute;
-    display: inline-block;
-    width: 280px;
+
+  &::before {
+    top: 45%;
+    transform: rotate(45deg);
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);;
+  }
+
+  &::after {
+    bottom: 45%;
+    transform: rotate(-45deg);
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);;
+  }
+
+  &:hover::before,
+  &:focus::before {
+    transform: rotate(-45deg);
+    background-color: $accent-color;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    transform: rotate(45deg);
+    background-color: $accent-color;
+  }
+}
+
+
+//==============================
+
+.description {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+
+  @include for-size(tablet-only) {
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  @include for-size(tablet) {
+    width: 55%;
+  }
+  @include for-size(desktop) {
+    width: 50%;
+  }
+}
+
+.modal__block-img {
+  display: block;
+
+  @include for-size(tablet) {
+    min-width: 45%;
+    margin-right: 30px;
+  }
+  @include for-size(desktop) {
+    min-width: 50%;
+  }
+}
+
+.modal__img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+
+  @include for-size(tablet-only) {
     height: auto;
-    top: 20px;
-    left: 50%;
-    transform: translate(-50%);
-    padding: 48px 20px 41px 20px;
-  
-    overflow: auto;
-  
-    @include for-size(tablet) {
-      display: flex;
-      width: 618px;
-      height: auto;
-      padding-top: 50px;
-      padding-bottom: 40px;
-      padding-right: 30px;
-      padding-left: 30px;
-      top: 50px;
-      left: 50%;
-      transform: translate(-50%) scale(1);
-  
-      .overlay.is-hidden & {
-        transform: translate(-50%) scale(0);
-      }
-    }
-  
-    @include for-size(desktop) {
-      top: 50%;
-      left: 50%;
-      width: 882px;
-      height: auto;
-  
-      transform: translate(-50%, -50%) scale(1);
-  
-      .overlay.is-hidden & {
-        transform: translate(-50%, -50%) scale(0);
-      }
-    }
-  
-    background-color: $light-text-color;
-    transition: transform $cubic;
+    object-fit: contain;
   }
-  
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
+}
+
+.modal__title {
+  margin: 0;
+  display: flex;
+  color: $dark-text-color;
+
+  @include for-size(mobile) {
+    @include font(500, 20px, 1.15);
+  }
+
+  @include for-size(desktop) {
+    @include font(500, 30px, 1.17);
+  }
+}
+
+.modal__keys {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.modal__keyItem {
+  display: flex;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.modal__key {
+  display: flex;
+  min-width: 69px;
+  margin: 0;
+
+  @include for-size(desktop-only) {
+    margin-right: 39px;
+  }
+
+  @include for-size(desktop) {
+    margin-right: 83px;
+  }
+  color: $modal-text-color;
+  flex-direction: row;
+
+  @include font(500, 12px, 1.33);
+}
+
+.modal__value {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  color: $dark-text-color;
+  @include font(500, 12px, 1.17);
+}
+
+.genre {
+  display: flex;
+  margin-right: 4px;
+  flex-direction: column;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-right: 3px;
+  min-width: 36px;
+  border-radius: 5px;
+
+  color: $light-text-color;
+  background-color: $accent-color;
+}
+
+.modal__button {
+  display: flex;
+}
+
+.button {
+  display: inline-flex;
+  width: 136px;
+  height: 44px;
+  padding: 14px 10px 12px 10px;
+
+  border-radius: 5px;
+
+  background-color: $light-text-color;
+
+  text-transform: uppercase;
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  justify-content: center;
+
+  &:hover {
+    background-color: $accent-color;
+    color: $light-text-color;
+    border: none;
     cursor: pointer;
-  
-    background-color: $light-text-color;
-  
-    border-radius: 50%;
-  
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: black;
-    }
-  
-    &::before {
-      top: 45%;
-      transform: rotate(45deg);
-      transition: transform $cubic;
-    }
-  
-    &::after {
-      bottom: 45%;
-      transform: rotate(-45deg);
-      transition: transform $cubic;
-    }
-  
-    &:hover::before,
-    &:focus::before {
-      transform: rotate(-45deg);
-      background-color: $accent-color;
-    }
-  
-    &:hover::after,
-    &:focus::after {
-      transform: rotate(45deg);
-      background-color: $accent-color;
-    }
   }
-  
+
+  transition: background-color $cubic;
+  display: flex;
+  @include for-size(tablet-only) {
+    align-items: center;
+    width: 112px;
+  }
+
+  @include for-size(desktop-only) {
+    width: 125px;
+    padding: 14px 9px 12px 9px;
+  }
+  margin-right: 15px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.modal__about {
+  color: $dark-text-color;
+  @include font(500, 12xp, 1.33);
+  margin-bottom: 10px;
+}
+
+.modal__text {
+  color: $dark-text-color;
+  margin-bottom: 20px;
+  @include font(500, 12xp, 1.67);
+  font-family: 'Roboto';
+}
