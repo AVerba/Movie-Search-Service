@@ -13,11 +13,12 @@ const formBtn=form.querySelector("#searchBtn");
 const formInput=form.querySelector("#searchInput");
 const pageContainer=document.querySelector('.pageContainer');
 const ModalCardTomb=document.querySelector('.modal__card');
-const accountBtn=document.querySelector('.account-btn');
+ 
 const openAccountModalBtn = document.querySelector("[data-modal-open]");
 const modal = document.querySelector("[data-modal]");
 const closeAccountModalBtn = document.querySelector("[data-modal-close]");
 
+const filmInfoModal = document.querySelector("[data-film-info]");
 
 /* const allGenresMovie=[]; */
 
@@ -48,6 +49,7 @@ const getCommonGenres =(aLLGenresID,userGenreID)=>{
 }
 
 const getMovieID=async (e)=>{
+    clearGalleryContainer(ModalCardTomb);  
 console.log(Number(e.target.getAttribute('data-id')))
 const movieID=Number(e.target.getAttribute('data-id'));
 const selectedMovieInfo= await movies.fetchDetailInfoMovie(movieID);
@@ -57,10 +59,24 @@ const modalMarkup = await selectedMovieCard(selectedMovieInfo);
 ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
 Movies.create(movieID);
 console.log(modalMarkup);
+filmInfoModal.classList.remove("is-hidden")
+closeMovieModal();
+
 }
 
 getTrendingMovie();
 getAllGenresMovie();
+
+
+function closeMovieModal (e) {
+    const closeModalBtn = document.querySelector("[data-close]");
+    closeModalBtn.addEventListener('click',()=>{
+        filmInfoModal.classList.add("is-hidden");
+        
+    })
+    console.log(closeModalBtn)
+ 
+}
 
 const formSearcMoviehHendler = async (e)=>{
     e.preventDefault();
@@ -115,10 +131,11 @@ openAccountModalBtn.addEventListener('click', ()=>{
     modal.classList.remove("is-hidden")
   }, false);
   
-  closeAccountModalBtn.addEventListener('click',()=>{
+closeAccountModalBtn.addEventListener('click',()=>{
     modal.classList.add("is-hidden")
     
-  }, false);
+}, false);
+
 
 
 /* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */
