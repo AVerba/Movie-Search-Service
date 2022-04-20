@@ -67,8 +67,9 @@ const getCommonGenres =(aLLGenresID,userGenreID)=>{
         if(genre){
             genres.push(genre.name)
         }
-        if(genres.length>=2){
-           genres.splice(2)  ;
+        if(genres.length>2){
+           genres.splice(2) ;
+           genres.push('Other'); 
            
         }        
     })
