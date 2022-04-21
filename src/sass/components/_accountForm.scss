@@ -95,7 +95,7 @@
   left: 0;
   z-index: 0;
   border-radius: 5px;
-  background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+  background: -webkit-linear-gradient(left, #ff6b08, #f7a46d);
   transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
 input[type="radio"]{
@@ -186,7 +186,7 @@ form .btn .btn-layer{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right, #a445b2, #fa4299, #a445b2, #fa4299);
+  background: -webkit-linear-gradient(right, #ff6b08, #f7a46d, #ff6b08, #f7a46d);
   border-radius: 5px;
   transition: all 0.4s ease;;
 }
