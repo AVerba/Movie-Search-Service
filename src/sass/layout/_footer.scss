@@ -1,19 +1,97 @@
 .footer {
-    display: flex;
-    position: fixed;
+  margin: 0 auto;
+  background-color: #F7F7F7;/* #F7F7F7 */
+/*   position: fixed;
+  bottom:0; */
+  width: 100%;
+  
+  @include for-size(to-tablet) {
+    /* padding: 118px 0; */
+  }
+  @include for-size(tablet) {
     bottom: 0;
-    background-color: tomato;
-    justify-content: center;
-    .container {
-        display: flex;
-        @include for-size(tablet) {
-          justify-content: center;
-          align-items: center;       
-         /*  */
-        }
-        
-      }
+  }
+  @include for-size(desktop) {
+    bottom: 0;
+  }
+  text-align: center;
+
+  // .footer__info
+
+  &__info {
+    width: 100%;
+    margin: 0 auto;
+    padding: 28.71px;
+
+  }
+
+  // .footer__logo
+
 }
-.contact-list{
+
+.info {
+  
+  &__icon{
+    fill: #FF6B08;
+  }
+
+  // .info__list
+
+  &__list {
     display: flex;
+    justify-content: center;  
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    @include for-size(to-tablet) {
+      /* padding: 118px 0; */
+    }
+    @include for-size(tablet) {
+     /*  padding: 107px 0; */
+    }
+    @include for-size(desktop) {
+     flex-direction: row;
+      /* padding: 108px 0; */
+    }
+  }
+
+  // .info__item
+
+  &__item {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.143;
+    color: #545454;
+    &:first-child{
+      margin-bottom: 10px;
+      @include for-size(to-tablet) {
+        margin-bottom: 0;
+      }
+      @include for-size(tablet) {
+        margin-bottom: 0;
+      }
+      @include for-size(desktop) {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // .info__btn
+
+  &__btn {
+    border:none;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.143;
+    color: #545454;
+    text-decoration: underline;
+    cursor: pointer;
+    background-color: transparent;
+
+  }
 }

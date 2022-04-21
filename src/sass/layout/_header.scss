@@ -1,5 +1,6 @@
 .header{
     margin: 0 auto;
+    min-width: 100%;
     background-color: #ff6347;
     background-image: url("../images/mobile/header-home-background.jpg");
     @include background-pos();
