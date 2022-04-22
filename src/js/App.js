@@ -3,6 +3,7 @@ import MovieApiService from "./service/apiService";
 import galleryMurkup from "../template/galleryMurkup.hbs";
 import selectedMovieCard from "../template/selectedMovieCard";
 import {Movies} from "./fireBase/movies";
+import { devModal } from "./forms/devForm";
 
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -19,6 +20,12 @@ const modal = document.querySelector("[data-modal]");
 const closeAccountModalBtn = document.querySelector("[data-modal-close]");
 
 const filmInfoModal = document.querySelector("[data-film-info]");
+const openDevModal=document.querySelector("[data-dev-open]");
+const closeDevModal = document.querySelector("[data-dev-close]");
+const modalDev=document.querySelector("[data-dev-modal]");
+
+
+
 
 /* const allGenresMovie=[]; */
 
@@ -172,6 +179,14 @@ closeAccountModalBtn.addEventListener('click',()=>{
 
 
 /* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */
+openDevModal.addEventListener('click', ()=>{
+    console.log(modalDev)
+    modalDev.classList.remove('is-hidden');
+})
+
+closeDevModal.addEventListener('click',()=>{
+    modalDev.classList.add('is-hidden');
+})
 formBtn.addEventListener('click', formSearcMoviehHendler );
 pageContainer.addEventListener('click',getMovieID )
 
