@@ -92,7 +92,10 @@ const selectedMovieInfo= await movies.fetchDetailInfoMovie(movieID);
 const modalMarkup = await selectedMovieCard(selectedMovieInfo);
 /* pageContainer.insertAdjacentHTML('beforeend',modalMarkup); */
 ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
+//============FIREBASE
 Movies.create(movieID);
+//============FIREBASE
+
 console.log(modalMarkup);
 filmInfoModal.classList.remove("is-hidden")
 closeMovieModal();
