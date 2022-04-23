@@ -21,6 +21,7 @@ export class Movies {
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import {  clouseModalWindow} from "../togleForm";
 
 
 const firebaseConfig = {
@@ -38,6 +39,30 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
 //========================================REFS=====================
+const loginText = document.querySelector(".title-text .login");
+const loginForm = document.querySelector("form.login");
+const loginBtn = document.querySelector("label.login");
+const signupBtn = document.querySelector("label.signup");
+const signupLink = document.querySelector("form .signup-link a");
+
+const LoginInputPass = document.getElementById('LoginInputPass');
+const LoginInputEmail = document.getElementById('LoginInputEmail');
+const modal = document.querySelector("[data-modal]");
+
+const data={};
+const loginFormHendler=(e)=>{
+  e.preventDefault();
+  data["password"] = LoginInputPass.value;
+  data["email"] = LoginInputEmail.value;
+ console.log(data)
+ clouseModalWindow(modal)
+ return data;
+
+}
+
+loginForm.addEventListener('submit', loginFormHendler)
+
+export const loginData=( )=>data;
 
   const name=0,
         email=0,
@@ -142,6 +167,7 @@ const registerUser=()=>{
                     email : email.value,
                     username : username.value,
                     password : encPass(),
+                    movies: [],
                 })
                 .then(()=>{
                     Notify.success(`User added successfully`);
@@ -182,6 +208,7 @@ const authenticationUser=()=>{
                 email : email.value,
                 username : username.value,
                 password : encPass(),
+                movies: [],
             })
             .then(()=>{
                 Notify.success(`User added successfully`);

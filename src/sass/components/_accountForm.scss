@@ -50,6 +50,10 @@
     opacity: 0;
     pointer-events: none;
   }
+  .account-overlay.is-hidden & {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .account-form .title-text{
   display: flex;
@@ -207,3 +211,42 @@ form .btn input[type="submit"]{
   font-weight: 500;
   cursor: pointer;
 }
+
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 20px;
+  margin-top: 15px;
+  background-color: #ff6b08;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+input[type="checkbox"] + label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+  position: absolute;
+  /* top: 3px; */
+  right: 0px;
+  transition: all 0.3s ease-out;
+}
+ 
+input[type="checkbox"]:checked + label {
+  background-color: #519b00;
+}
+
+input[type="checkbox"]:checked + label::before {
+  right: 40px;
+}
+ 
