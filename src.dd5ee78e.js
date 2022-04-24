@@ -117,4 +117,4 @@ var t=arguments[3],e="Expected a function",n=NaN,r="[object Symbol]",i=/^\s+|\s+
 },{"./service/apiService":"EyIU","../template/galleryMurkup.hbs":"gczc","../template/selectedMovieCard":"dalU","./forms/devForm":"qzjD","tui-pagination":"jPMh","tui-pagination/dist/tui-pagination.css":"o8lo","lodash.debounce":"PZFh","notiflix/build/notiflix-notify-aio":"MeeU","../js/togleForm":"ldvu"}],"Focm":[function(require,module,exports) {
 "use strict";require("./sass/main.scss"),require("./js/pagination"),require("./js/forms/accountForm"),require("./js/fireBase/movies"),require("./js/App");
 },{"./sass/main.scss":"clu1","./js/pagination":"o8lo","./js/forms/accountForm":"MgwY","./js/fireBase/movies":"Hyp6","./js/App":"aeIX"}]},{},["Focm"], null)
-//# sourceMappingURL=/Movie-Search-Service/src.6836f3c0.js.map
+//# sourceMappingURL=/Movie-Search-Service/src.dd5ee78e.js.map
