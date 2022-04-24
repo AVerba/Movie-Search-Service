@@ -3,25 +3,13 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 40px;
-  
-/*     @include breakpoint(tablet) {
-      padding-bottom: 60px;
-    } */
   }
   
   .tui {
-    // &-ico-first,
-    // &-ico-last {
-    //   padding: 12px;
-    //   border-radius: 5px;
-    //   background-color: $grey-bg;
-    // }
-  
     &-page-btn {
       border: none!important;
       margin: 8px;
       border-radius: 5px;
-      //   padding: 12px;
     }
   
     &-is-selected {
