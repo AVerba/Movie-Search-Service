@@ -2,11 +2,17 @@
 import MovieApiService from "./service/apiService";
 import galleryMurkup from "../template/galleryMurkup.hbs";
 import selectedMovieCard from "../template/selectedMovieCard";
-import {Movies} from "./fireBase/movies";
+ 
 import { devModal } from "./forms/devForm";
+
+import Pagination from "tui-pagination";
+ 
+import 'tui-pagination/dist/tui-pagination.css';
+
 
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import {openModalWindow, clouseModalWindow} from "../js/togleForm";
 
 
 const form =document.getElementById('searchFilm');
@@ -25,46 +31,81 @@ const closeDevModal = document.querySelector("[data-dev-close]");
 const modalDev=document.querySelector("[data-dev-modal]");
 
 
+const container = document.querySelector('#tui-pagination-container'); 
+const pagination =new Pagination(container,
+    {
+        itemsPerPage: 20,
+        visiblePages: 5,
+      })
+/* const pagination = new Pagination(container, {
+  itemsPerPage: 20,
+  visiblePages: 5,
+});
+ */
 
 
-/* const allGenresMovie=[]; */
+
 
 const movies=new MovieApiService();
+const paginationPage = pagination.getCurrentPage();
 
+
+//=============ПОЛУЧАЕМ ВСЕ НОВИНКИ ФИЛЬМОВ=============================
 const getTrendingMovie = async ()=>{
+    /* movies.setPage(paginationPage); */
+    console.log(movies.Page())
     const getMoviesData = await movies.fetchTrendingMovie();
+    pagination.reset(getMoviesData.total_results);
     const {genres} = await getAllGenresMovie();
     const {results}=getMoviesData;
+    console.log(getMoviesData)
 
     const tempGanres=[];
     results.map(item=>{
          
         const {genre_ids}=item;
         const movieGenre=getCommonGenres(genres,genre_ids);             
-        item['ganres_names']=movieGenre;
-        
-           
+        item['ganres_names']=movieGenre;               
     })
     
     results['tempGanres']=tempGanres;
     results.forEach(item=>{
         item.release_date=new Date(Date.parse(item.release_date)).getFullYear()
-
     })
-
- 
-
 
     clearGalleryContainer(pageContainer);
     movies.resetPage();
     const markup = galleryMurkup(results);
     galleryMarkUp(markup, pageContainer);
-}
 
+
+}
+//=========================================================================
+
+//==========Pagination======================================================
+pagination.on('beforeMove', event => {
+
+    const currentPage = event.page;
+     
+    movies.setPage(currentPage);
+    console.log(movies.Page())
+    console.log(currentPage)
+    getTrendingMovie();
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+  });
+//=========================================================================
+
+//==========================ПОЛУЧАЕМ ВСЕ ЖАНРЫ=============================
 const getAllGenresMovie = async ()=>{
     return await movies.fetchGenresMovie();
 }
+//=========================================================================
 
+//=============ПОЛУЧАЕМ   ЖАНРЫ КАЖДОГО ФИЛЬМА=============================
 const getCommonGenres =(aLLGenresID,userGenreID)=>{
     const genres=[];
     const tempGenres=[];
@@ -76,45 +117,36 @@ const getCommonGenres =(aLLGenresID,userGenreID)=>{
         }
         if(genres.length>2){
            genres.splice(2) ;
-           genres.push('Other'); 
-           
+           genres.push('Other');           
         }        
     })
     return genres;
 }
+//====================================================================
 
+//=============ПОЛУЧАЕМ   ФИЛЬМ С ЗАПРОСА=============================
 const getMovieID=async (e)=>{
     clearGalleryContainer(ModalCardTomb);  
-console.log(Number(e.target.getAttribute('data-id')))
+ 
 const movieID=Number(e.target.getAttribute('data-id'));
 const selectedMovieInfo= await movies.fetchDetailInfoMovie(movieID);
 
 const modalMarkup = await selectedMovieCard(selectedMovieInfo);
-/* pageContainer.insertAdjacentHTML('beforeend',modalMarkup); */
+ 
 ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
-//============FIREBASE
-/* Movies.create(movieID); */
-//============FIREBASE
 
-console.log(modalMarkup);
-filmInfoModal.classList.remove("is-hidden")
-closeMovieModal();
 
+openModalWindow(filmInfoModal);
+const closeModalBtn = document.querySelector("[data-close]");
+/* closeModalBtn.addEventListener('click',clouseModalWindow(filmInfoModal) ); */
 }
+//=============ПОЛУЧАЕМ   ФИЛЬМ С ЗАПРОСА=============================
 
 getTrendingMovie();
 getAllGenresMovie();
 
 
-function closeMovieModal (e) {
-    const closeModalBtn = document.querySelector("[data-close]");
-    closeModalBtn.addEventListener('click',()=>{
-        filmInfoModal.classList.add("is-hidden");
-        
-    })
-    console.log(closeModalBtn)
- 
-}
+
 
 const formSearcMoviehHendler = async (e)=>{
     e.preventDefault();
@@ -130,7 +162,7 @@ const formSearcMoviehHendler = async (e)=>{
         item.release_date=new Date(Date.parse(item.release_date)).getFullYear()
 
     })
-   /*  results.release_date.split(' ').splice(1).join('') */
+ 
 
     if (results.length === 0) {
 
@@ -156,6 +188,7 @@ const formSearcMoviehHendler = async (e)=>{
 
         const markup = galleryMurkup(results);
         galleryMarkUp(markup, pageContainer);
+         
 
     }
 
@@ -179,17 +212,7 @@ closeAccountModalBtn.addEventListener('click',()=>{
     
 }, false);
 
-/* //===========checkBox
- 
-const loginCheckbox = document.querySelector('.login-checkbox');
-const LoginInputCheck = document.querySelector ('#LoginInputCheck')
 
-loginCheckbox.addEventListener('click',()=>{
-     console.log(LoginInputCheck.checked)
-}) */
-
-
-/* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */
 openDevModal.addEventListener('click', ()=>{
     console.log(modalDev)
     modalDev.classList.remove('is-hidden');

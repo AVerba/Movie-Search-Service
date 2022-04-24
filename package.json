@@ -23,14 +23,14 @@
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "parcel-plugin-nuke-dist": "^1.0.1",
     "posthtml-include": "^1.6.2",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "tui-pagination": "^3.4.1"
   },
   "dependencies": {
     "axios": "^0.26.1",
     "firebase": "^9.6.11",
     "handlebars": "^4.7.7",
     "lodash.debounce": "^4.0.8",
-    "notiflix": "^3.2.5",
-    "tui-pagination": "^3.4.1"
+    "notiflix": "^3.2.5"
   }
 }

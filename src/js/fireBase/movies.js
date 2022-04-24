@@ -158,6 +158,19 @@ const singOut=()=>{
 }
 //====================================SIGN OUT======================================
 
+//=================================CHECK-USER-IN-LOCALSTORAGE========================
+const getUser=()=>{
+    const keepLoggedIn=localStorage.getItem("keepLoggedIn");
+    if(keepLoggedIn==="Yes"){
+        currentUser=JSON.parse(localStorage.getItem('user'));
+    }
+    else{
+        currentUser=JSON.parse(sessionStorage.getItem('user'));
+    }
+}
+
+//=================================CHECK-USER-IN-LOCALSTORAGE========================
+
 //=================================REGISTER USER FIREBASE========================
 
 const registerUser=()=>{
@@ -240,18 +253,7 @@ const authenticationUser=()=>{
 }
 //=================================AUTHENTICATION========================
 
-//=================================CHECK-USER-IN-LOCALSTORAGE========================
-const getUser=()=>{
-    const keepLoggedIn=localStorage.getItem("keepLoggedIn");
-    if(keepLoggedIn==="Yes"){
-        currentUser=JSON.parse(localStorage.getItem('user'));
-    }
-    else{
-        currentUser=JSON.parse(sessionStorage.getItem('user'));
-    }
-}
 
-//=================================CHECK-USER-IN-LOCALSTORAGE========================
 
 
 //=========================EVENTS================

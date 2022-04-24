@@ -40,9 +40,15 @@ export default class MovieApiService{
     get searchQuery() {
         return this.query;
     }
+    Page() {
+        return this.page;
+    }
 
     set searchQuery(newQuery) {
         this.query = newQuery;
+    }
+    setPage(numPage) {
+        this.page = numPage;
     }
 
     incrementPage() {
