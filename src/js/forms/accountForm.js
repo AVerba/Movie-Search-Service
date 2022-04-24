@@ -1,4 +1,4 @@
-import {  clouseModalWindow} from "../togleForm";
+
 
 const loginText = document.querySelector(".title-text .login");
 const loginForm = document.querySelector("form.login");
@@ -14,11 +14,9 @@ signupBtn.onclick = (()=>{
 loginBtn.onclick = (()=>{
   loginForm.style.marginLeft = "0%";
   loginText.style.marginLeft = "0%";
-  console.log("dgfdgfdgdfgdf")
 });
 signupLink.onclick = (()=>{
   signupBtn.click();
-  
   return false;
 });
 

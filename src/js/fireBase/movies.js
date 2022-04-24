@@ -1,5 +1,5 @@
 export class Movies {
-    static create (movie){
+/*     static create (movie){
         fetch('https://movie-search-service-default-rtdb.firebaseio.com/movies.json',{
             method: 'POST',
             body: JSON.stringify(movie),
@@ -13,13 +13,14 @@ export class Movies {
         .then(response=>{
             console.log(response)
         })
-    }
+    } */
 }
 
 //================================FIREBASE CONFIG=====================
  
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, child, get, set } from "firebase/database";
+import { getDatabase, ref, child, get, set, update } from "firebase/database";
+
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import {  clouseModalWindow} from "../togleForm";
 
@@ -36,39 +37,52 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
 const db = getDatabase();
 
 //========================================REFS=====================
-const loginText = document.querySelector(".title-text .login");
-const loginForm = document.querySelector("form.login");
-const loginBtn = document.querySelector("label.login");
-const signupBtn = document.querySelector("label.signup");
-const signupLink = document.querySelector("form .signup-link a");
 
-const LoginInputPass = document.getElementById('LoginInputPass');
-const LoginInputEmail = document.getElementById('LoginInputEmail');
+const signupInputEmail = document.getElementById('signupInputEmail');
+const signupInputPass = document.getElementById('signupInputPass');
+
+
 const modal = document.querySelector("[data-modal]");
+const modalLogin = document.querySelector("[data-modal-login]");
+const modalSignup = document.querySelector("[data-modal-signup]");
 
-const data={};
-const loginFormHendler=(e)=>{
-  e.preventDefault();
-  data["password"] = LoginInputPass.value;
-  data["email"] = LoginInputEmail.value;
- console.log(data)
- clouseModalWindow(modal)
- return data;
+ 
+const dt={};
 
-}
+const signupFormHendler=(e)=>{
+    e.preventDefault();
+    registerUser();
+    dt["password"] = signupInputPass.value;
+    dt["email"] = signupInputEmail.value;
+   console.log(dt)
+   /* modalSignup.reset(); */
+   clouseModalWindow(modal)  
+  }
 
-loginForm.addEventListener('submit', loginFormHendler)
+  const loginFormHendler=(e)=>{
+    e.preventDefault();
+    authenticationUser();
+    dt["password"] = signupInputPass.value;
+    dt["email"] = signupInputEmail.value;
+    /* modalLogin.reset(); */
+   clouseModalWindow(modal)  
+  }
 
-export const loginData=( )=>data;
+  
 
-  const name=0,
-        email=0,
-        username=0,
-        password=0,
-        submitBtn=0
+  const name = document.getElementById('signupInputName');
+  const email = document.getElementById('signupInputEmail');
+  const username = document.getElementById('signupInputUsername');
+  const password = document.getElementById('signupInputPass');
+
+  const logUsername = document.getElementById('LoginInputUsername');
+  const logPassword = document.getElementById('LoginInputPass');
+ 
+  const submitBtn = document.querySelector("label.signup");
   let currentUser=null;
 
 
@@ -82,15 +96,13 @@ const inputValidation =()=>{
     const emailregex =/^[a-zA-Z0-9]+(gmail|outlook)\.com$/;
     const usernameregex =/^[a-zA-Z]{5,}}$/;
 
-    if(isEmptyOrSpaces(name.value)||
-       isEmptyOrSpaces(email.value)||
-       isEmptyOrSpaces(username.value)||
-       isEmptyOrSpaces(password.value)){
+    if(isEmptyOrSpaces(name.value)||isEmptyOrSpaces(email.value)||isEmptyOrSpaces(username.value)||isEmptyOrSpaces(password.value)){
         Notify.failure('You can not left any field ampty');
         return false;
+         
     }
     
-    if(!nameregex.test(name)){
+    if( !nameregex.test(name)){
         Notify.failure('Sorry,  the name should to contain only Alphabet letter/ Try again');
         return false;
     }
@@ -115,15 +127,15 @@ const encPass=()=>{
 
 //=================================DECRIPTION====================================
 const decPass=(dbpassword)=>{
-    const pass12 =CryptoJS.AES.decrypt(dbpassword.value, password.value);
-    return pass12.toString(CryptoJS.enc.UTF8);
+    const pass =CryptoJS.AES.decrypt(dbpassword , logPassword.value);
+    return pass.toString(CryptoJS.enc.Utf8);
 }
 //=================================DECRIPTION====================================
 
 //====================================LOGIN======================================
 
 const login=(user)=>{
-    const keepLoggedIn=document.getElementById('userSwitch').checked;
+    const keepLoggedIn=document.getElementById('LoginInputCheck').checked;
     if(!keepLoggedIn){
         sessionStorage.setItem('user', JSON.stringify(user));
         window.location="home.html";
@@ -149,15 +161,16 @@ const singOut=()=>{
 //=================================REGISTER USER FIREBASE========================
 
 const registerUser=()=>{
-    if(!inputValidation()){
+/*     if( !inputValidation()){
         return;
-    }
+    } */
+ 
 
     const dbRef=ref(db);
 
     get(child(dbRef, "UserList/" + username.value))
         .then(snapshot=>{
-            if(snapshot.axists()){
+            if(snapshot.exists()){
                 Notify.success(`User allready axists`);
             }
             else{
@@ -166,8 +179,8 @@ const registerUser=()=>{
                     fullname : name.value,
                     email : email.value,
                     username : username.value,
-                    password : encPass(),
-                    movies: [],
+                    password : encPass(),   /* password.value */
+                    movies:  [ ],
                 })
                 .then(()=>{
                     Notify.success(`User added successfully`);
@@ -188,16 +201,21 @@ const authenticationUser=()=>{
     
     const dbref=ref(db);
 
-    get(child(dbref, "UserList/" + username.value))
+    get(child(dbref, "UserList/" + logUsername.value))
     .then(snapshot=>{
-        if(snapshot.axists()){
-            const dbpassword = decPass(snapshot.value);
+        if(snapshot.exists()){
+            const dbpassword = decPass(snapshot.child("password").val());/* .val().password */
 
-            if(dbpassword === password.value ) {
-                login();
+            if(dbpassword === logPassword.value ) {
+                /* login(); */
+                console.log("hi")
+                set(child(dbref, "UserList/" + logUsername.value+"/movies"), ["noeh","matrix","nemo"])
+                const oldObj=snapshot.val();
+                const {movies}=oldObj;     
+                console.log(movies);               
             }
             else{
-                Notify.success(`User do not axists`);
+                Notify.success(`User do not exists`);
             }
             
         }
@@ -208,7 +226,7 @@ const authenticationUser=()=>{
                 email : email.value,
                 username : username.value,
                 password : encPass(),
-                movies: [],
+                 
             })
             .then(()=>{
                 Notify.success(`User added successfully`);
@@ -234,3 +252,9 @@ const getUser=()=>{
 }
 
 //=================================CHECK-USER-IN-LOCALSTORAGE========================
+
+
+//=========================EVENTS================
+/* signupBtn.addEventListener('click',registerUser) */
+modalSignup.addEventListener('submit', signupFormHendler)
+modalLogin.addEventListener('submit', loginFormHendler)

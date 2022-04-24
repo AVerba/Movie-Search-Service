@@ -93,7 +93,7 @@ const modalMarkup = await selectedMovieCard(selectedMovieInfo);
 /* pageContainer.insertAdjacentHTML('beforeend',modalMarkup); */
 ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
 //============FIREBASE
-Movies.create(movieID);
+/* Movies.create(movieID); */
 //============FIREBASE
 
 console.log(modalMarkup);
@@ -179,6 +179,14 @@ closeAccountModalBtn.addEventListener('click',()=>{
     
 }, false);
 
+/* //===========checkBox
+ 
+const loginCheckbox = document.querySelector('.login-checkbox');
+const LoginInputCheck = document.querySelector ('#LoginInputCheck')
+
+loginCheckbox.addEventListener('click',()=>{
+     console.log(LoginInputCheck.checked)
+}) */
 
 
 /* formInput.addEventListener('input', debounce(formSearcMoviehHendler, 500)); */

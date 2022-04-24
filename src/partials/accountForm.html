@@ -18,16 +18,16 @@
              <div class="slider-tab"></div>
           </div>
           <div class="form-inner">
-             <form action="submit" class="login">
+             <form action="submit" class="login" data-modal-login>
                 <div class="field">
-                   <input type="text" id="LoginInputEmail" placeholder="Email Address" required>
+                   <input type="text" id="LoginInputUsername" placeholder="Username" required>
                 </div>
                 <div class="field">
                    <input type="password" id="LoginInputPass" placeholder="Password" required>
                 </div>
 
-                <input type="checkbox" id="name" name="name" checked>
-                <label class="login-checkbox" for="name" ></label>
+                <input type="checkbox"  id="LoginInputCheck" name="LoginInputCheck" checked>
+                <label class="login-checkbox" for="LoginInputCheck" ></label>
                 <div class="pass-link">
                    
                    <a href="#">Forgot password?</a>
@@ -41,7 +41,7 @@
                    Not a member? <a href="">Signup now</a>
                 </div>
              </form>
-             <form action="#" class="signup">
+             <form action="submit" class="signup" data-modal-signup>
                 <div class="field">
                    <input type="text" id="signupInputName" placeholder="Name" required>
                 </div>
