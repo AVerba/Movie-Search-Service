@@ -37,13 +37,6 @@ const pagination =new Pagination(container,
         itemsPerPage: 20,
         visiblePages: 5,
       })
-/* const pagination = new Pagination(container, {
-  itemsPerPage: 20,
-  visiblePages: 5,
-});
- */
-
-
 
 
 const movies=new MovieApiService();
@@ -52,14 +45,13 @@ const paginationPage = pagination.getCurrentPage();
 
 //=============ПОЛУЧАЕМ ВСЕ НОВИНКИ ФИЛЬМОВ=============================
 const getTrendingMovie = async ()=>{
-    /* movies.setPage(paginationPage); */
+    console.log(paginationPage)
     console.log(movies.Page())
     const getMoviesData = await movies.fetchTrendingMovie();
     pagination.reset(getMoviesData.total_results);
     const {genres} = await getAllGenresMovie();
     const {results}=getMoviesData;
-    console.log(getMoviesData)
-
+    
     const tempGanres=[];
     results.map(item=>{
          
@@ -137,8 +129,10 @@ ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
 
 
 openModalWindow(filmInfoModal);
-const closeModalBtn = document.querySelector("[data-close]");
-/* closeModalBtn.addEventListener('click',clouseModalWindow(filmInfoModal) ); */
+
+closeModalBtn.addEventListener('click',
+/* ()=>{filmInfoModal.classList.add('is-hidden');} */
+clouseModalWindow(filmInfoModal) );
 }
 //=============ПОЛУЧАЕМ   ФИЛЬМ С ЗАПРОСА=============================
 
