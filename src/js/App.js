@@ -1,6 +1,6 @@
 
 import MovieApiService from "./service/apiService";
-import galleryMurkup from "../template/galleryMurkup.hbs";
+import galleryMurkupTempl from "../template/galleryMurkupTempl.hbs";
 import selectedMovieCard from "../template/selectedMovieCard";
  
 import { devModal } from "./forms/devForm";
@@ -32,29 +32,33 @@ const modalDev=document.querySelector("[data-dev-modal]");
 
 
 const container = document.querySelector('#tui-pagination-container'); 
-const pagination =new Pagination(container,
-    {
-        itemsPerPage: 20,
-        visiblePages: 5,
-      })
+const options ={
+    itemsPerPage: 20,
+    visiblePages: 5,
+     
+    totalItems:20,    
+}
+const pagination =new Pagination(container, options)
 
 
 const movies=new MovieApiService();
-const paginationPage = pagination.getCurrentPage();
+/* const paginationPage = pagination.getCurrentPage(); */
+
+//==========Pagination======================================================
+
+//=========================================================================
 
 
 //=============ПОЛУЧАЕМ ВСЕ НОВИНКИ ФИЛЬМОВ=============================
 const getTrendingMovie = async ()=>{
-    console.log(paginationPage)
-    console.log(movies.Page())
+   
     const getMoviesData = await movies.fetchTrendingMovie();
     pagination.reset(getMoviesData.total_results);
     const {genres} = await getAllGenresMovie();
     const {results}=getMoviesData;
     
     const tempGanres=[];
-    results.map(item=>{
-         
+    results.map(item=>{         
         const {genre_ids}=item;
         const movieGenre=getCommonGenres(genres,genre_ids);             
         item['ganres_names']=movieGenre;               
@@ -63,33 +67,49 @@ const getTrendingMovie = async ()=>{
     results['tempGanres']=tempGanres;
     results.forEach(item=>{
         item.release_date=new Date(Date.parse(item.release_date)).getFullYear()
-    })
+    })    
+    const markup = galleryMurkupTempl(results);
+        clearGalleryContainer(pageContainer);
+        galleryMarkUp(markup, pageContainer);
+    
 
-    clearGalleryContainer(pageContainer);
-    movies.resetPage();
-    const markup = galleryMurkup(results);
-    galleryMarkUp(markup, pageContainer);
+
+    pagination.on('beforeMove', async event => {
+        
+        movies.setPage(event.page);
+        const getMoviesData = await movies.fetchTrendingMovie();         
+        const {genres} = await getAllGenresMovie();
+    const {results}=getMoviesData;
+    
+    const tempGanres=[];
+    results.map(item=>{         
+        const {genre_ids}=item;
+        const movieGenre=getCommonGenres(genres,genre_ids);             
+        item['ganres_names']=movieGenre;               
+    })
+    
+    results['tempGanres']=tempGanres;
+    results.forEach(item=>{
+        item.release_date=new Date(Date.parse(item.release_date)).getFullYear()
+    })   
+        
+
+        
+        const markup = galleryMurkupTempl(results);
+        clearGalleryContainer(pageContainer);
+        galleryMarkUp(markup, pageContainer);
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+          movies.resetPage();
+      });
 
 
 }
 //=========================================================================
 
-//==========Pagination======================================================
-pagination.on('beforeMove', event => {
-
-    const currentPage = event.page;
-     
-    movies.setPage(currentPage);
-    console.log(movies.Page())
-    console.log(currentPage)
-    getTrendingMovie();
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',
-      });
-  });
-//=========================================================================
 
 //==========================ПОЛУЧАЕМ ВСЕ ЖАНРЫ=============================
 const getAllGenresMovie = async ()=>{
@@ -100,7 +120,6 @@ const getAllGenresMovie = async ()=>{
 //=============ПОЛУЧАЕМ   ЖАНРЫ КАЖДОГО ФИЛЬМА=============================
 const getCommonGenres =(aLLGenresID,userGenreID)=>{
     const genres=[];
-    const tempGenres=[];
 
          userGenreID.forEach(genreID=>{
         let genre = aLLGenresID.find(item => item.id === genreID);
@@ -130,9 +149,9 @@ ModalCardTomb.insertAdjacentHTML('beforeend',modalMarkup);
 
 openModalWindow(filmInfoModal);
 
-closeModalBtn.addEventListener('click',
-/* ()=>{filmInfoModal.classList.add('is-hidden');} */
-clouseModalWindow(filmInfoModal) );
+closeModalBtn.addEventListener('click',()=>{
+    filmInfoModal.classList.add('is-hidden');
+})
 }
 //=============ПОЛУЧАЕМ   ФИЛЬМ С ЗАПРОСА=============================
 
@@ -180,7 +199,7 @@ const formSearcMoviehHendler = async (e)=>{
         clearGalleryContainer(pageContainer);
         movies.resetPage();
 
-        const markup = galleryMurkup(results);
+        const markup = galleryMurkupTempl(results);
         galleryMarkUp(markup, pageContainer);
          
 
