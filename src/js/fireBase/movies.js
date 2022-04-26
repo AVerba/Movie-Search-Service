@@ -233,7 +233,7 @@ const authenticationUser=()=>{
             
         }
         else{
-            set(ref(db, "UserList/" + username.value),
+/*             set(ref(db, "UserList/" + username.value),
             {
                 fullname : name.value,
                 email : email.value,
@@ -246,7 +246,7 @@ const authenticationUser=()=>{
             })
             .catch((error)=>{
                 Notify.failure('Ops, error' + error);
-            })
+            }) */
         }
     });
 

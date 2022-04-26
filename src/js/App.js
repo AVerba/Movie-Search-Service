@@ -154,8 +154,7 @@ closeModalBtn.addEventListener('click',()=>{
 })
 }
 //=============ПОЛУЧАЕМ   ФИЛЬМ С ЗАПРОСА=============================
-
-getTrendingMovie();
+window.onload =getTrendingMovie();
 getAllGenresMovie();
 
 
@@ -182,25 +181,63 @@ const formSearcMoviehHendler = async (e)=>{
         Notify.failure('Sorry, there are no images matching your search query. Please try again.');
 
     } else {
+        pagination.reset(getMoviesData.total_results);
         const tempGanres=[];
-        results.map(item=>{
-            const tempGanres=[];
+        results.map(item=>{             
             const {genre_ids, title, id}=item;
             const movieGenre=getCommonGenres(genres,genre_ids);             
-            item['ganres_names']=movieGenre.join(', ');
-               
+            item['ganres_names']=movieGenre.join(', ');               
         })
         
-        results['tempGanres']=tempGanres;
-        console.log(results)
+        results['tempGanres']=tempGanres;        
 
         Notify.success(`Hooray! We found ${total_results} movies.`);
-        
         clearGalleryContainer(pageContainer);
         movies.resetPage();
-
         const markup = galleryMurkupTempl(results);
         galleryMarkUp(markup, pageContainer);
+
+        pagination.on('beforeMove', async event => {
+            movies.setPage(event.page);
+            const getMoviesData = await movies.fetchSearchMovie();        
+            const {genres} = await getAllGenresMovie();
+            const {results}=getMoviesData;        
+            const tempGanres=[];
+            results.map(item=>{         
+                const {genre_ids}=item;
+                const movieGenre=getCommonGenres(genres,genre_ids);             
+                item['ganres_names']=movieGenre;               
+            })
+        
+        results['tempGanres']=tempGanres;
+        results.forEach(item=>{
+            item.release_date=new Date(Date.parse(item.release_date)).getFullYear()
+        })   
+            
+    
+            
+            const markup = galleryMurkupTempl(results);
+            clearGalleryContainer(pageContainer);
+            galleryMarkUp(markup, pageContainer);
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth',
+              });
+              movies.resetPage();
+          });
+        
+
+
+
+
+
+/* 
+
+        clearGalleryContainer(pageContainer);
+        movies.resetPage();
+        const markup = galleryMurkupTempl(results);
+        galleryMarkUp(markup, pageContainer); */
          
 
     }
